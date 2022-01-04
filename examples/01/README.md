@@ -9,6 +9,14 @@ This directory and all files/subdirectories within it contain:
 + `p4prog<n>` - a few sample programs written to use the new namespace
   features.
 
+This set of files is written assuming that the following kinds of
+names can be imported from a namespace, just like other top-level
+names such as type, typedef, const, and header type names:
+
++ match_kind
++ annotation names, declared explicitly in `annotation { ... }` statements
++ table property names, declared explicitly in `table_property { ... }` statements
+
 
 # p4include
 
@@ -48,9 +56,8 @@ v1model, and psa.
 
 # p4prog1
 
-The P4 program `v1model_ethernet_parsing_only.p4` is a simple
-`v1model` architecture program.  It starts with these include
-statements:
+The P4 program `demo1.p4` is a simple `v1model` architecture program.
+It starts with these include statements:
 
 ```
 #include <core.p4>
@@ -66,18 +73,18 @@ e.g. `/usr/local/share/p4c/p4include`, that contains the files
 level definitions for types, extern objects and methods, extern
 functions, etc. that have been there for years.
 
-This _same program_ is intended to compile and work the same way after
-the namespace facility is added, because the `p4include` directory
-will contain an `import` statement that imports all of the top level
-names from those namespaces.
+This _identical source code_ is intended to compile and work the same
+way after the namespace facility is added, because the `p4include`
+directory will contain core.p4 and v1model.p4 files, each with one
+`import` statement that imports all of the top level names from those
+namespaces.
 
 
 # p4prog2
 
-The P4 program `v1model_ethernet_parsing_only.p4` in this directory is
-functionally the same as the one in the p4prog2 directory, but avoids
-using the provided include files, instead choosing to use these
-`import` statements:
+The P4 program `demo1.p4` in this directory is functionally the same
+as the one in the p4prog1 directory, but avoids using the new include
+files, instead choosing to use these `import` statements:
 
 ```
 import core;
@@ -85,7 +92,9 @@ import v1model as v1;
 ```
 
 Thus everywhere a name defined in one of those namespaces is used in
-this program, it must be prefixed with `core.` or `v1.`.
+this program, it must be prefixed with `core.` or `v1.`.  You can see
+all of these prefixes by searching for those names or diff'ing the
+p4prog1/demo1.p4 and p4prog2/demo1.p4 programs.
 
 I do not expect that many P4 developers will _want_ to write code
 using this style, but it is a choice available to them.
