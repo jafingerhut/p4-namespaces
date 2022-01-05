@@ -4,7 +4,7 @@ This directory and all files/subdirectories within it contain:
 
 + `p4include` - a proposed replacement for files in the
   https://github.com/p4lang/p4c repo's `p4include` directory.
-+ `p4namespace` - a proposed new top level directory to be added to
++ `p4namespaces` - a proposed new top level directory to be added to
   the `p4c` repo, containing definitions of standard namespaces.
 + `p4prog<n>` - a few sample programs written to use the new namespace
   features.
