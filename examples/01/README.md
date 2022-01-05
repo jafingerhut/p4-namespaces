@@ -39,7 +39,7 @@ from core import packet_in, packet_out, verify,
     ;
 ```
 
-Thus if a P4 developer does `include <core.p4>` in their program, it
+Thus if a P4 developer does `#include <core.p4>` in their program, it
 imports the core namespace in such a way that all of the names in it
 can be used in the P4 developer's program with no `core.` prefix.
 
@@ -49,9 +49,12 @@ can be used in the P4 developer's program with no `core.` prefix.
 The directory `p4namespaces` is proposed to be a new directory in the
 `p4c` repo, and always on the default `P4PATH` path of directories
 that `p4c` searches for namespace definitions.  The files in this
-directory _must_ be used by P4 developers after namespaces are
-introduced, as they contain the definitions of the namespaces core,
-v1model, and psa.
+directory would be as necessary after namespaces are introduced, as
+the `p4include` directory is necessary for today's p4c without
+namespaces.  After the change, only the files in the `p4namespaces`
+directory would contain the definitions that appear in
+p4include/core.p4, p4include/v1model.p4, and p4include/bmv2/psa.p4
+today.
 
 
 # p4prog1
@@ -96,8 +99,12 @@ this program, it must be prefixed with `core.` or `v1.`.  You can see
 all of these prefixes by searching for those names or diff'ing the
 p4prog1/demo1.p4 and p4prog2/demo1.p4 programs.
 
-I do not expect that many P4 developers will _want_ to write code
-using this style, but it is a choice available to them.
+I expect that most P4 developers will prefer the `#include` approach
+for names defined in the core namespace, and the namespace of whatever
+architecture they write their programs for, so that they do not need
+to write so many prefixes in their code.  However, the choice will be
+up to their preferences.  They could make an independent choice of how
+to import each namespace they use.
 
 
 # What happens when you compile p4prog1/demo1.p4 ?

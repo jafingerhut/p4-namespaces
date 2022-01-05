@@ -20,7 +20,7 @@ License](LICENSE).
 
 # This repo is for P4 language feature design discussions, not authoritative
 
-The authoritative specifcation of the P4 language can be obtained
+The authoritative specification of the P4 language can be obtained
 [here](https://p4.org/specs), and is maintained in source form in the
 [p4-spec repository](https://github.com/p4lang/p4-spec).
 
