@@ -122,7 +122,8 @@ p4c --target bmv2 --arch v1model demo1.p4
 would go through the following steps, each of which are discussed
 further below.
 
-+ Run CPP on file demo1.p4 with the current include path, producing demo1.p4i
++ Run CPP (the C Preprocessor) on file demo1.p4 with the current
+  include path, producing demo1.p4i
 + p4c begins compiling demo1.p4i and encounters the first import statement
   + p4c finds and compiles namespace core
 + p4c continues compiling demo1.p4i and encounters the second import statement
@@ -132,18 +133,15 @@ further below.
 
 ## Run CPP on file demo1.p4 with the current include path, producing demo1.p4i
 
-This will result in a file I will call demo1.p4i that has the line
-`#include <core.p4>` replaced with the contents of the file
-`p4include/core.p4`, which is:
+Running the C preprocessor on file demo1.p4 will result in a file I
+will call demo1.p4i.  demo.p4i has the line `#include <core.p4>`
+replaced with the contents of the file `p4include/core.p4`, which is:
 
 ```
 from core import
     // extern object types
     packet_in,
     packet_out,
-
-    // extern functions
-    verify,
 
     // ... many lines here omitted for brevity ...
 
@@ -185,17 +183,22 @@ namespace path.  It should find the file `p4namespaces/core.p4`.
 
 p4c then runs CPP on `p4namespaces/core.p4`.  In this case, there are
 no preprocessor directives in the file, so the output of CPP is the
-same as the input file.  In general, CPP could process #define #ifdef
-and #include directives, as normal.  The result of CPP I will call
-`core.p4i`.
+same as the input file.  In general, CPP could process `#define`,
+`#ifdef`, and `#include` directives, as normal.  I will call the the
+output of CPP `core.p4i`.
 
 p4c should then compile the file `core.p4i` in such a way that:
 
 + all of its non-exported top level names are visible only within the
   file core.p4i.
 + all of its exported top level names are visible later within
-  core.p4i, and also visible to the namespace that contains the
-  statement importing namespace `core`.
+  core.p4i by the name used in the file, as usual in today's P4
+  language.  These exported names are also visible to the namespace
+  that contains the statement importing namespace `core`.
+  + In this case, since the relevant `import` statement is `from core
+    import packet_in, ...;`, they will be visible in the default
+    namespace of demo1.p4i by the same names they are defined in
+    `core.p4i`.
 
 When p4c is finished compiling `core.p4i`, it should resume compiling
 `demo1.p4i`.
@@ -216,6 +219,7 @@ way as described in the previous section for `core.p4i`.
 
 ## p4c continues compiling demo1.p4i and encounters no more import statements
 
-The rest of demo1.p4i is now compiled.  Throughout this, the imported
-names have been made to appear that they were locally defined inside
-of demo1.p4i, and do not require any prefix to refer to them.
+The rest of demo1.p4i is now compiled.  Throughout this last part of
+compilation, the imported names have been made to appear that they
+were locally defined inside of demo1.p4i, and do not require any
+prefix to refer to them.
