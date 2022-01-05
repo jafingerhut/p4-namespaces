@@ -98,3 +98,124 @@ p4prog1/demo1.p4 and p4prog2/demo1.p4 programs.
 
 I do not expect that many P4 developers will _want_ to write code
 using this style, but it is a choice available to them.
+
+
+# What happens when you compile p4prog1/demo1.p4 ?
+
+Just as there is a default include path that contains the `p4include`
+directory with today's p4c, there would still be one with this
+proposal, and it would contain the files in the `p4include` directory,
+relative to this README.md file.
+
+There would also be a default namespace path that contains the
+`p4namespaces` directory, and it would contain the files in the
+`p4namespaces` directory, relative to this README.md file.
+
+Running commands like those shown below with the default include and
+namespace paths:
+
+```bash
+cd p4prog1
+p4c --target bmv2 --arch v1model demo1.p4
+```
+
+would go through the following steps, each of which are discussed
+further below.
+
++ Run CPP on file demo1.p4 with the current include path, producing demo1.p4i
++ p4c begins compiling demo1.p4i and encounters the first import statement
+  + p4c finds and compiles namespace core
++ p4c continues compiling demo1.p4i and encounters the second import statement
+  + p4c finds and compiles namespace v1model
++ p4c continues compiling demo1.p4i and encounters no more import statements
+
+
+## Run CPP on file demo1.p4 with the current include path, producing demo1.p4i
+
+This will result in a file I will call demo1.p4i that has the line
+`#include <core.p4>` replaced with the contents of the file
+`p4include/core.p4`, which is:
+
+```
+from core import
+    // extern object types
+    packet_in,
+    packet_out,
+
+    // extern functions
+    verify,
+
+    // ... many lines here omitted for brevity ...
+
+    // table properties
+    key,
+    actions,
+    default_action,
+    entries,
+    size;
+```
+
+Similarly it has the line `#include <v1model.p4>` replaced with the
+contents of the file `p4include/v1model.p4`, which contains:
+
+```
+from v1model import
+    ////////////////////////////////////////////////////////////
+    // Until the next comment, the first group of names were added 2016-Apr-04
+    ////////////////////////////////////////////////////////////
+    standard_metadata_t,
+    CounterType,
+    HashAlgorithm,
+
+    // ... many lines here omitted for brevity ...
+
+    implementation,
+    support_timeout;
+```
+
+Note: The resulting demo1.p4i file contains _NO_ definitions of any of
+these names.
+
+
+## p4c begins compiling demo1.p4i and encounters the first import statement
+
+When p4c reaches the line `from core import ...;` in demo1.p4i, it
+will search for a namespace named `core` in the currently configured
+namespace path.  It should find the file `p4namespaces/core.p4`.
+
+p4c then runs CPP on `p4namespaces/core.p4`.  In this case, there are
+no preprocessor directives in the file, so the output of CPP is the
+same as the input file.  In general, CPP could process #define #ifdef
+and #include directives, as normal.  The result of CPP I will call
+`core.p4i`.
+
+p4c should then compile the file `core.p4i` in such a way that:
+
++ all of its non-exported top level names are visible only within the
+  file core.p4i.
++ all of its exported top level names are visible later within
+  core.p4i, and also visible to the namespace that contains the
+  statement importing namespace `core`.
+
+When p4c is finished compiling `core.p4i`, it should resume compiling
+`demo1.p4i`.
+
+
+## p4c continues compiling demo1.p4i and encounters the second import statement
+
+When p4c reaches the line `from v1model import ...;` in demo1.p4i, it
+will search for the namespace v1model.  This is similar to what it did
+for namespace core in the previous section.
+
+It will then run CPP on the top level file defining namespace v1model,
+producing `v1model.p4i`.
+
+It will then compile the contents of `v1model.p4i` in much the same
+way as described in the previous section for `core.p4i`.
+
+
+## p4c continues compiling demo1.p4i and encounters no more import statements
+
+The rest of demo1.p4i is now compiled.  Throughout this, the imported
+names have been made to appear that they were locally defined inside
+of demo1.p4i, and do not require any prefix to refer to them.
