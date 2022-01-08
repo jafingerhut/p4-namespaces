@@ -3,13 +3,28 @@
 A public repo for discussion of adding namespaces to the [P4
 programming language](https://p4.org).
 
-See [this Google
-Doc](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc)
-for many thoughts on what such a namespace system might look like.
+If this is your first time learning about this proposal, below is one
+recommendation on how to get started _without_ reading all of the
+fairly long Google doc linked below.   which you should consider as gory
+details, if and when you are curious about those details.
+
++ Read these sections of the Google doc, totaling about 5 pages:
+  + [Goals of a P4 namespace
+    system](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=id.avxqvt6rf45a) 
+  + [Non-goals of this proposal](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=kix.8vwhepylnfng)
+  + [New syntactic elements introduced by this
+    proposal](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=id.xzo4dkuew4z3)
+  + [Short code snippet examples](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=id.kujexs8tayd6)
+
+Two nearly identical complete P4 programs that use this proposal are
+given a subdirectory of this repo.  See [the README
+there](examples/01/README.md).
 
 You are encouraged to use [Github
 Issues](https://github.com/jafingerhut/p4-namespaces/issues) on this
-repository for discussion on this topic.
+repository for discussion on this topic.  Several issues have been
+created, with the hope of fostering discussion there about particular
+aspects of this proposal.
 
 
 # License
