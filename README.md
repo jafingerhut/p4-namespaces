@@ -13,7 +13,7 @@ details, if and when you are curious about those details.
     system](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=id.avxqvt6rf45a) 
   + [Non-goals of this proposal](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=kix.8vwhepylnfng)
   + [New syntactic elements introduced by this
-    proposal](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=id.xzo4dkuew4z3)
+    proposal](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=kix.y3adl53ue6du)
   + [Short code snippet examples](https://docs.google.com/document/d/1NNC4t5NjAhzOhiC_DauiYrw80h1cXjZhshdRTuAPSnc/edit#bookmark=id.kujexs8tayd6)
 
 Two nearly identical complete P4 programs that use this proposal are
