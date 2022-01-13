@@ -26,6 +26,28 @@ limitations under the License.
 // ... most of the include file contents go here ...
 // #endif  /* _CORE_P4_ */
 
+export table_property {
+    key,
+    actions,
+    default_action,
+    entries,
+    size
+}
+
+export annotation {
+    atomic,
+    defaultonly,
+    deprecated,
+    hidden,
+    match,
+    name,
+    noSideEffects,
+    noWarn,
+    optional,
+    pure,
+    tableonly
+}
+
 /// Standard error codes.  New error codes can be declared by users.
 export error {
     NoError,           /// No error.
@@ -86,26 +108,4 @@ export match_kind {
     ternary,
     /// Longest-prefix match.
     lpm
-}
-
-export table_property {
-    key,
-    actions,
-    default_action,
-    entries,
-    size
-}
-
-export annotation {
-    atomic,
-    defaultonly,
-    deprecated,
-    hidden,
-    match,
-    name,
-    noSideEffects,
-    noWarn,
-    optional,
-    pure,
-    tableonly
 }
